@@ -1,0 +1,15 @@
+<div class="container">
+    <div class="form-wrapper">
+        <h3 class="form__description text-to-center">EDIT YOUR NOTE</h3>
+        <form action="/notes/{{note.id}}?_method=PUT" method="post">
+            <input type="hidden" name="_method" value="PUT">
+            <div class="input__wrapper">
+                <input type="text" class="input" name="title" placeholder="title" value="{{note.title}}" required>
+            </div>
+            <div class="input__wrapper">
+                <textarea type="text" class="text-area" name="details" placeholder="{{note.details}}" value="{{note.details}}"  required></textarea>
+            </div>
+            <div class="btn__wrapper"><button type="submit" class="btn_submit">Submit</button></div>
+        </form>
+    </div>
+</div>

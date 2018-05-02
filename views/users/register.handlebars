@@ -1,0 +1,22 @@
+<div class="container">
+        <div class="form-wrapper">
+        <h3 class="login__title text-to-center">Account Register</h3>
+        <form action='/users/register' method="post">
+            <div class="input__wrapper">
+                <input type="name" class="input" name="name" value = "{{name}}" placeholder="name" required>
+            </div>
+            <div class="input__wrapper">
+                <input type="email" class="input" name="email" value="{{email}}" placeholder="email" required>
+            </div>
+            <div class="input__wrapper">
+                <input type="password" class="input" name="password" value="{{password}}" placeholder="password" required>
+            </div>
+            <div class="input__wrapper">
+                <input type="password" class="input" name="password2" value="{{password2}}"  placeholder="repeat password" required>
+            </div>
+            <div class="btn__wrapper">
+                <button type="submit" class="btn_submit">Submit</button>
+            </div>
+        </form>
+        </div>
+</div>

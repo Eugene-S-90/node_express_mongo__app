@@ -1,0 +1,16 @@
+<div class="container">
+    {{#each notes}}
+    <div class="notes__wrapper">
+        <h4 class="notes__title text-to-center">{{title}}</h4>
+        <p class="notes__details text-to-center">{{details}}</p>
+        <p class="notes__details text-to-center">{{date}}</p>
+        <a class="notes__edit" href="/notes/edit/{{id}}">EDIT</a>
+       <form method="post" action="/notes/{{id}}?_method=DELETE">
+       <input type="hidden" name="_method" value="DELETE">
+       <input type="submit" value="Delete" class="btn_delete">
+       </form>
+    </div>
+    {{else}}
+    <p class="text-to-center">Your notes are empty</p>
+    {{/each}}
+</div>
