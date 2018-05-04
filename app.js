@@ -6,6 +6,7 @@ const methodOverride = require('method-override');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const flash = require('connect-flash');
+const passport = require('passport');
 // const flash = require('express-flash-2');
 const mongoose = require('mongoose');
 
@@ -14,6 +15,11 @@ const app = express();
 // LOAD ROUTES
 const notes = require('./routes/notes');
 const users = require('./routes/users');
+
+// Passport Config
+
+require('./config/passport')(passport);
+
 
 const port = 5000;
 
