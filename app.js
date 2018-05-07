@@ -43,20 +43,25 @@ app.use(bodyParser.json());
 app.use(methodOverride('_method'));
 
 // EXPRESS SESSION MIDDLEWARE
-    app.use(session({
-        secret: 'secret',
-        resave: true,
-        saveUninitialized: true,
-      }));
-      app.use(flash())
+app.use(session({
+    secret: 'secret',
+    resave: true,
+    saveUninitialized: true,
+}));
+app.use(flash())
+// PASSPORT MIDDLEWARE
+app.use(passport.initialize());
+app.use(passport.session());
 
 //   GLOBAL VARIABLES
-app.use((req, res, next)=>{
-    res.locals.success_msg =req.flash('success_msg');
+app.use((req, res, next) => {
+    res.locals.success_msg = req.flash('success_msg');
     res.locals.error_msg = req.flash('error_msg');
-    console.log('mydata' ,res.locals.success_msg )
+    res.locals.error = req.flash('error');
+    res.locals.user = req.user || null;
+    console.log('mydata', res.locals.success_msg)
     next();
-  });
+});
 
 // for static files (css,js)
 // app.use(express.static('assets'))
@@ -78,8 +83,8 @@ app.get('/about', (req, res) => {
     res.render('about');
 });
 // User Routes
-app.use('/notes',notes)
-app.use('/users',users)
+app.use('/notes', notes)
+app.use('/users', users)
 
 app.listen(port, () => {
     console.log(`Server starting on ${port}`);
