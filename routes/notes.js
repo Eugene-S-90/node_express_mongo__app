@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
+const {ensureAuthenticated} = require('../helpers/auth');
 
 
 
@@ -12,7 +13,7 @@ const Note = mongoose.model('notes');
 
 // NOTES PAGE
 router.get('/', (req, res) => {
-    Note.find({})
+    Note.find({user:req.user.id})
         .sort({ date: 'desc' })
         .then(notes => {
             res.render('notes/index', {
@@ -23,24 +24,30 @@ router.get('/', (req, res) => {
 })
 
 // Add notes form
-router.get('/add', (req, res) => {
+router.get('/add', ensureAuthenticated,(req, res) => {
     res.render('notes/add');
 });
 
 // EDIT notes form
-router.get('/edit/:id', (req, res) => {
+router.get('/edit/:id', ensureAuthenticated, (req, res) => {
     Note.findOne({
         _id: req.params.id
     })
         .then(note => {
-            res.render('notes/edit', {
-                note: note
-            });
+            if(note.user!=req.user.id){
+                req.flash('error_msg','Not authorized')
+                res.redirect('/notes');
+            }
+            else{
+                res.render('notes/edit', {
+                    note: note
+                });
+            }
         })
 });
 
 // DELETE NOTES
-router.delete('/:id',(req, res) => {
+router.delete('/:id', ensureAuthenticated,(req, res) => {
     Note.remove({_id: req.params.id})
     .then ( () => {
         req.flash('success_msg','Note removed');
@@ -50,11 +57,12 @@ router.delete('/:id',(req, res) => {
 
 
 // ADD proccec form
-router.post('/', (req, res) => {
+router.post('/', ensureAuthenticated, (req, res) => {
     console.log(req.body);
     const newUser = {
         title: req.body.title,
         details: req.body.details,
+        user: req.user.id
     }
     new Note(newUser).save()
         .then(note => {
@@ -64,7 +72,7 @@ router.post('/', (req, res) => {
 })
 
 // EDIT form proccec
-router.put('/:id', (req, res) => {
+router.put('/:id', ensureAuthenticated, (req, res) => {
     Note.findOne({
         _id:req.params.id
     })
