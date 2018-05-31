@@ -21,7 +21,7 @@ const users = require('./routes/users');
 require('./config/passport')(passport);
 
 
-const port = 5000;
+const port = process.env.PORT || 5000;
 
 // connect to mongoose
 mongoose.Promise = global.Promise
